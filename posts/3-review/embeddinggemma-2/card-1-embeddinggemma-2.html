@@ -29,10 +29,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "microsoft/harrier-oss-v1-270m",
-          "score": 66.55,
-          "params_b": 0.268,
+          "label": "Best other open model under 1B parameters",
+          "model": "microsoft/harrier-oss-v1-0.6b",
+          "score": 69.01,
+          "params_b": 0.596,
           "fixed": false
         },
         {
@@ -60,7 +60,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 60.52,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -79,10 +79,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "jinaai/jina-embeddings-v5-text-nano",
-          "score": 71.11,
-          "params_b": 0.212,
+          "label": "Best other open model under 1B parameters",
+          "model": "infgrad/Jasper-Token-Compression-600M",
+          "score": 74.75,
+          "params_b": 0.607,
           "fixed": false
         },
         {
@@ -110,7 +110,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 67.53,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -129,10 +129,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "google/siglip-base-patch16-512",
-          "score": 50.92,
-          "params_b": 0.204,
+          "label": "Best other open model under 1B parameters",
+          "model": "google/siglip-so400m-patch14-384",
+          "score": 53.5,
+          "params_b": 0.878,
           "fixed": false
         },
         {
@@ -160,7 +160,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 63.52,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -179,10 +179,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "laion/larger_clap_general",
-          "score": 34.98,
-          "params_b": 0.194,
+          "label": "Best other open model under 1B parameters",
+          "model": "jinaai/jina-embeddings-v5-omni-nano",
+          "score": 50.14,
+          "params_b": 0.986,
           "fixed": false
         },
         {
@@ -210,7 +210,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 49.31,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -229,10 +229,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "lightonai/LateOn-Code",
-          "score": 74.12,
-          "params_b": 0.149,
+          "label": "Best other open model under 1B parameters",
+          "model": "papr-ai/papr-embed-code-1-0.6b",
+          "score": 77.43,
+          "params_b": 0.596,
           "fixed": false
         },
         {
@@ -260,7 +260,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 77.88,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -279,10 +279,10 @@
           "muted": true
         },
         {
-          "label": "Previous best open weight under 300M parameters",
-          "model": "lightonai/LateOn-Code",
-          "score": 73.4,
-          "params_b": 0.149,
+          "label": "Best other open model under 1B parameters",
+          "model": "codefuse-ai/F2LLM-v2-0.6B",
+          "score": 77.66,
+          "params_b": 0.596,
           "fixed": false
         },
         {
@@ -310,7 +310,7 @@
           "label": "google/embeddinggemma-2",
           "model": "google/embeddinggemma-2",
           "score": 76.33,
-          "params_b": 0.271,
+          "params_b": 0.744,
           "fixed": true,
           "subject": true
         }
@@ -320,7 +320,7 @@
 }
 </script>
 <script type="text/plain" id="alt-text">
-NEW ON MTEB: One open model, measured on six benchmarks. google/embeddinggemma-2. Best open model under 1B total parameters on the image and code benchmarks; mid-field on multilingual text. Scores are Mean(Task) per benchmark, compared only against models with complete results there. Per benchmark, in row order — Best open weights, Previous best open weight under 300M parameters, jinaai/jina-embeddings-v5-text-nano, BidirLM/BidirLM-270M-Embedding, google/embeddinggemma-300m, google/embeddinggemma-2: MTEB(Multilingual, v2): 74.27, 66.55, 65.52, 56.81, 61.14, 60.52. MTEB(eng, v2): 75.97, 71.11, 71.11, 62.20, 69.67, 67.53. MIEB(lite): 68.76, 50.92, not run, not run, not run, 63.52. MAEB(v1): 53.54, 34.98, not run, not run, not run, 49.31. MTEB(Code, v1): 81.13, 74.12, 71.09, 55.07, 68.76, 77.88. CoIR: 80.12, 73.40, 69.59, 52.71, 67.29, 76.33. Blank cells mean no complete result on that benchmark. Source: MTEB, leaderboard.mteb.org.
+NEW ON MTEB: One open model, measured on six benchmarks. google/embeddinggemma-2. Best open model under 1B total parameters on the image and code benchmarks; mid-field on multilingual text. Scores are Mean(Task) per benchmark, compared only against models with complete results there. Per benchmark, in row order — Best open weights, Best other open model under 1B parameters, jinaai/jina-embeddings-v5-text-nano, BidirLM/BidirLM-270M-Embedding, google/embeddinggemma-300m, google/embeddinggemma-2: MTEB(Multilingual, v2): 74.27, 69.01, 65.52, 56.81, 61.14, 60.52. MTEB(eng, v2): 75.97, 74.75, 71.11, 62.20, 69.67, 67.53. MIEB(lite): 68.76, 53.50, not run, not run, not run, 63.52. MAEB(v1): 53.54, 50.14, not run, not run, not run, 49.31. MTEB(Code, v1): 81.13, 77.43, 71.09, 55.07, 68.76, 77.88. CoIR: 80.12, 77.66, 69.59, 52.71, 67.29, 76.33. Blank cells mean no complete result on that benchmark. Source: MTEB, leaderboard.mteb.org.
 </script>
 
 <style>
@@ -442,7 +442,7 @@ const COPY = {
   title: "One open model, measured on six benchmarks",
   subject: "google/embeddinggemma-2",
   subtitle: "Best open model under 1B total parameters on the image and code benchmarks; mid-field on multilingual text.",
-  note: "Mean(Task) per benchmark. Best open = open weights in the registry; under 300M = the registry's total parameter count. A dash is a model with no result on that benchmark — a missing evaluation is not a low score.",
+  note: "Mean(Task) per benchmark. Best open = open weights in the registry; under 1B = the registry's total parameter count, and the subject is counted with every tower loaded (744M), not the 271M text tower MTEB's registry records. Late-interaction models are not used as reference points. A dash is a model with no result on that benchmark — a missing evaluation is not a low score.",
   credit: "Added to MTEB by schechterh · results submitted by KennethEnevoldsen",
   source: "Source: MTEB · leaderboard.mteb.org",
 };

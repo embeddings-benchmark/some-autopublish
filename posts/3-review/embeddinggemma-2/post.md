@@ -48,24 +48,27 @@ Added to MTEB by schechterh; results submitted by KennethEnevoldsen.
 
 `google/embeddinggemma-2` embeds text, images and audio, and it is the best open model
 under 1B total parameters on the image benchmark and on `MTEB(Code, v1)` — the two places it
-leads. Everywhere else it is behind the open-weight ceiling. On text it is behind its own
-predecessor — 0.62 on `MTEB(Multilingual, v2)` and 2.14 on `MTEB(eng, v2)` — and behind
-`jina-embeddings-v5-text-nano` (212M), a same-size model that now has the code results to
-compare against: the subject is 5.00 behind it on `MTEB(Multilingual, v2)` and 6.79 ahead of
-it on `MTEB(Code, v1)`. Against the predecessor the code lead is 9.12 and 9.04.
+leads: 10.02 ahead of the next sub-1B model on `MIEB(lite)`, 0.45 on `MTEB(Code, v1)`.
+Everywhere else it is behind the open-weight ceiling, and on text and audio it is behind
+models of its own size class: 8.49 behind `harrier-oss-v1-0.6b` (596M) on
+`MTEB(Multilingual, v2)`, 7.22 behind `Jasper-Token-Compression-600M` (607M) on
+`MTEB(eng, v2)`, 0.83 behind `jina-embeddings-v5-omni-nano` (986M) on `MAEB(v1)` and 1.33
+behind `F2LLM-v2-0.6B` (596M) on `CoIR`.
+
+It is also behind its own text-only predecessor: 0.62 on `MTEB(Multilingual, v2)`, 2.14 on
+`MTEB(eng, v2)` — while leading it on code by 9.12 and 9.04.
 
 |  | MTEB(Multilingual, v2) | MTEB(eng, v2) | MIEB(lite) | MAEB(v1) | MTEB(Code, v1) | CoIR |
 |---|---:|---:|---:|---:|---:|---:|
 | Best open weights | harrier-oss-v1-27b 74.27 | QZhou-Embedding 75.97 | LCO-Omni-7B 68.76 | LCO-Omni-7B 53.54 | papr-embed-code-1-4b 81.13 | papr-embed-code-1-4b 80.12 |
-| Previous best open under 300M | harrier-oss-v1-270m **66.55** | jina-v5-text-nano **71.11** | siglip-base-patch16-512 50.92 | larger_clap_general 34.98 | LateOn-Code 74.12 | LateOn-Code 73.40 |
+| Best other open under 1B | harrier-oss-v1-0.6b **69.01** | Jasper-Token-Compression-600M **74.75** | siglip-so400m-patch14-384 53.50 | jina-v5-omni-nano **50.14** | papr-embed-code-1-0.6b 77.43 | F2LLM-v2-0.6B **77.66** |
 | jina-embeddings-v5-text-nano (212M) | 65.52 | 71.11 | not run | not run | 71.09 | 69.59 |
 | BidirLM-270M-Embedding (268M) | 56.81 | 62.20 | not run | not run | 55.07 | 52.71 |
 | google/embeddinggemma-300m (308M) | 61.14 | 69.67 | not run | not run | 68.76 | 67.29 |
-| **google/embeddinggemma-2 (271M)** | 60.52 | 67.53 | **63.52** | **49.31** | **77.88** | **76.33** |
+| **google/embeddinggemma-2 (744M)** | 60.52 | 67.53 | **63.52** | 49.31 | **77.88** | 76.33 |
 
 Bold is the best in the column, excluding the open-weights ceiling row: the subject takes
-image, audio and both code columns; English goes to `jina-embeddings-v5-text-nano` at 71.11
-and multilingual to `harrier-oss-v1-270m` at 66.55.
+image and `MTEB(Code, v1)`; the sub-1B row takes multilingual, English, audio and `CoIR`.
 
 On audio it trails three models of 2.5B total parameters or less:
 `BidirLM-Omni-2.5B-Embedding` at 52.36, `jina-embeddings-v5-omni-small` (1.626B) at 50.41
@@ -106,24 +109,30 @@ unchanged.
 **Why these six columns.** Each benchmark the model has results on, one column each, with the
 two code benchmarks sharing a heading. Ranks gave way to reference points on review: a rank
 against a cohort says nothing about how far back it is, and the ceiling is what a rank is
-relative to. The three rows below the ceiling are the ceiling under 300M total parameters, the
-two same-size peers, and the predecessor.
+relative to. The rows below the ceiling are the best other open model under 1B total
+parameters, two text-only peers, and the predecessor.
 
-**"Best open under 1B" is total parameters from the registry.** One `ModelMeta` covers
-several tower configurations (`use_image`, `use_audio` in
-`mteb/models/model_implementations/google_embeddinggemma.py`) and the results files record
-no tower config, so the per-modality count is unknowable from the results repo. It does not
-change the claim: the subject is under 1B even with every tower loaded. The card's small-model
-row is 300M rather than 1B because that is the class the two named peers sit in.
+**Size is the published checkpoint, not MTEB's registry default.** MTEB records 271M for this
+model: that is the text-only tower, the `ModelMeta` default. The Hub holds 744,371,512
+parameters, so the card counts every tower and the reference row is the *best other open model
+under 1B total parameters* rather than under 300M — a 271M row beside 596M and 878M models
+compared the subject against a class it is not in. `fetch.py` reads the total from the Hub API
+each run and stops if it cannot; the number and its source are in `data.json` under
+`subject_parameters`. The wrapper's tower table (271.0M text, 438.8M with images, 576.6M with
+audio, 744.4M with both) is in
+`mteb/models/model_implementations/google_embeddinggemma.py`, and the results files record no
+tower config — mteb 2.26.10 writes no per-run meta — so the configuration behind each
+submitted score is not in the results repo. The scores settle it in practice: MIEB tasks at
+88.6 (`ImageNetDog15Clustering`) and MAEB at 96.91 (`SpeechCommandsZeroshotv0.02`) cannot come
+from a run without those towers.
 
-**The 271M on the card is the text tower.** The wrapper's tower table gives 271.0M text-only,
-438.8M with the image tower, 576.6M with the audio tower and 744.4M with both, and the Hub
-repo holds 744,371,512 parameters — the published model is the full multimodal one. The
-wrapper loads both towers by default and reports the loaded configuration in its model meta,
-but mteb 2.26.10 writes no per-run meta into the result files, so which configuration each
-submitted run used is not recorded there. The scores settle it in practice: MIEB tasks at
-88.6 (`ImageNetDog15Clustering`) and MAEB at 96.91 (`SpeechCommandsZeroshotv0.02`) cannot
-come from a run without those towers. The claim is unaffected either way — 744.4M is under 1B.
+**Late-interaction models are not reference points.** `modelType: late-interaction` — LateOn,
+mLateOn and relatives — is excluded from both comparison rows, because those models index one
+vector per token: they are not the single-vector encoder a reader of this card is choosing
+between, and their retrieval scores are not paid for the same way. It is not a cosmetic
+exclusion: `LateOn-Code` at 74.12 and 73.40 would otherwise hold the sub-1B code cells, and
+`mLateOn` (73.48) is close behind. The rows stay in `data.json` with their `model_type`, so the
+exclusion is checkable.
 
 **The code lead is narrow on `MTEB(Code, v1)`.** 77.88 against `papr-embed-code-1-0.6b`
 (596M) at 77.43 is 0.45, and the nearest model above the subject,
@@ -147,10 +156,10 @@ and any statement about why the model is built the way it is. MTEB measured neit
 
 ## Decisions for the reviewer
 
-1. **The named rows are the claim, not decoration.** The two same-size peers make the post
-   more than "a new model exists" — it wins code by 6.79 and loses text by 5.00 to one of
-   them — and the predecessor row is the comparison a reader already has in their head. All
-   three are text-only, so the comparison is four columns of six.
+1. **The sub-1B row is the claim, not decoration.** On total parameters the subject is a 744M
+   model, so the class to compare against is under 1B — that is where it wins image by 10.02
+   and code by 0.45, and where it loses text, audio and `CoIR`. The three named rows below it
+   are the text-tower comparison and the model's own history, not its size class.
 2. **The predecessor is a row now, not just a sentence.** It was the sentence most likely to
    read as picking on the model; as a row it is the model's own history, and the reader sees
    61.14 and 69.67 against 60.52 and 67.53 without being told what to think.
