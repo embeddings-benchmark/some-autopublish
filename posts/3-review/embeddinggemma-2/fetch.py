@@ -151,22 +151,25 @@ COLUMNS: list[tuple[str, list[str]]] = [
     ("Code", ["MTEB(Code, v1)", "CoIR"]),
 ]
 
-# Named competitors. Both are multimodal and small, which is the comparison the post is
-# making; neither has code results, and a missing result is shown as missing.
-NAMED = ["jinaai/jina-embeddings-v5-omni-small", "BidirLM/BidirLM-Omni-2.5B-Embedding"]
+# Named competitors. Both sit in the subject's own size class rather than above it, which
+# is the comparison a reader choosing between 250M models is actually making; where one has
+# no result the cell says so.
+NAMED = ["jinaai/jina-embeddings-v5-text-nano", "BidirLM/BidirLM-270M-Embedding"]
 
-# "Under 1B" is total parameters, from the registry. The subject is under 1B on any of its
-# tower configurations (271M text-only, 744M with every tower), so the claim does not
-# depend on which configuration a run loaded.
-SMALL_TOTAL_B = 1.0
+# Peer ceiling: total parameters from the registry, below 300M. The subject is 271M on its
+# text-only tower and 744M with every tower loaded, so the row is a like-for-like size
+# comparison, not a claim about every configuration.
+PEER_TOTAL_B = 0.3
 
 
 def _pick(complete: list[dict], *, open_required: bool = False,
-          max_total: float | None = None) -> dict | None:
+          max_total: float | None = None, exclude: str | None = None) -> dict | None:
     for r in complete:
         if open_required and not r["open_weights"]:
             continue
         if max_total is not None and (r["total_params_b"] or 99) > max_total:
+            continue
+        if exclude is not None and r["model"] == exclude:
             continue
         return r
     return None
@@ -200,8 +203,9 @@ def card_data(found: dict) -> dict:
                 })
 
             add("Best open weights", _pick(complete, open_required=True), muted=True)
-            add("Best open, ≤1B params",
-                _pick(complete, open_required=True, max_total=SMALL_TOTAL_B))
+            add("Previous best open weight under 300M parameters",
+                _pick(complete, open_required=True, max_total=PEER_TOTAL_B,
+                      exclude=SUBJECT))
             for model in NAMED:
                 add(model, next((x for x in complete if x["model"] == model), None), fixed=True)
             add(SUBJECT, next((x for x in complete if x["model"] == SUBJECT), None),
