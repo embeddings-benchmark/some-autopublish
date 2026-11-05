@@ -49,9 +49,10 @@ Added to MTEB by schechterh; results submitted by KennethEnevoldsen.
 `google/embeddinggemma-2` embeds text, images and audio, and it is the best open model
 under 1B total parameters on the image benchmark and on `MTEB(Code, v1)` — the two places it
 leads. Everywhere else it is behind the open-weight ceiling. On text it is behind its own
-predecessor, and behind `jina-embeddings-v5-text-nano` (212M), a same-size model that now has
-the code results to compare against: the subject is 5.00 behind it on
-`MTEB(Multilingual, v2)` and 6.79 ahead of it on `MTEB(Code, v1)`.
+predecessor — 0.62 on `MTEB(Multilingual, v2)` and 2.14 on `MTEB(eng, v2)` — and behind
+`jina-embeddings-v5-text-nano` (212M), a same-size model that now has the code results to
+compare against: the subject is 5.00 behind it on `MTEB(Multilingual, v2)` and 6.79 ahead of
+it on `MTEB(Code, v1)`. Against the predecessor the code lead is 9.12 and 9.04.
 
 |  | MTEB(Multilingual, v2) | MTEB(eng, v2) | MIEB(lite) | MAEB(v1) | MTEB(Code, v1) | CoIR |
 |---|---:|---:|---:|---:|---:|---:|
@@ -59,6 +60,7 @@ the code results to compare against: the subject is 5.00 behind it on
 | Previous best open under 300M | harrier-oss-v1-270m **66.55** | jina-v5-text-nano **71.11** | siglip-base-patch16-512 50.92 | larger_clap_general 34.98 | LateOn-Code 74.12 | LateOn-Code 73.40 |
 | jina-embeddings-v5-text-nano (212M) | 65.52 | 71.11 | not run | not run | 71.09 | 69.59 |
 | BidirLM-270M-Embedding (268M) | 56.81 | 62.20 | not run | not run | 55.07 | 52.71 |
+| google/embeddinggemma-300m (308M) | 61.14 | 69.67 | not run | not run | 68.76 | 67.29 |
 | **google/embeddinggemma-2 (271M)** | 60.52 | 67.53 | **63.52** | **49.31** | **77.88** | **76.33** |
 
 Bold is the best in the column, excluding the open-weights ceiling row: the subject takes
@@ -78,9 +80,9 @@ this model.
 negative, which is not the same kind of number as the accuracy means beside it. It is in
 `data.json`.
 
-**The two named competitors have no image or audio results.** Both are text-only models, so
-four of their cells read "not run". A missing evaluation is not a low score, and a blank is
-the only honest rendering of it. Both are complete on the code benchmarks and on English.
+**The three named competitors have no image or audio results.** All are text-only models, so
+six of their cells read "not run". A missing evaluation is not a low score, and a blank is
+the only honest rendering of it. Each is complete on the code benchmarks and on English.
 
 **The reference points are open-weight models only.** A proprietary model is in
 `data.json` (and is the highest English score in the registry), but it is not something a
@@ -104,8 +106,8 @@ unchanged.
 **Why these six columns.** Each benchmark the model has results on, one column each, with the
 two code benchmarks sharing a heading. Ranks gave way to reference points on review: a rank
 against a cohort says nothing about how far back it is, and the ceiling is what a rank is
-relative to. The two rows below the ceiling are the ceiling under 300M total parameters and
-the two same-size peers.
+relative to. The three rows below the ceiling are the ceiling under 300M total parameters, the
+two same-size peers, and the predecessor.
 
 **"Best open under 1B" is total parameters from the registry.** One `ModelMeta` covers
 several tower configurations (`use_image`, `use_audio` in
@@ -113,6 +115,15 @@ several tower configurations (`use_image`, `use_audio` in
 no tower config, so the per-modality count is unknowable from the results repo. It does not
 change the claim: the subject is under 1B even with every tower loaded. The card's small-model
 row is 300M rather than 1B because that is the class the two named peers sit in.
+
+**The 271M on the card is the text tower.** The wrapper's tower table gives 271.0M text-only,
+438.8M with the image tower, 576.6M with the audio tower and 744.4M with both, and the Hub
+repo holds 744,371,512 parameters — the published model is the full multimodal one. The
+wrapper loads both towers by default and reports the loaded configuration in its model meta,
+but mteb 2.26.10 writes no per-run meta into the result files, so which configuration each
+submitted run used is not recorded there. The scores settle it in practice: MIEB tasks at
+88.6 (`ImageNetDog15Clustering`) and MAEB at 96.91 (`SpeechCommandsZeroshotv0.02`) cannot
+come from a run without those towers. The claim is unaffected either way — 744.4M is under 1B.
 
 **The code lead is narrow on `MTEB(Code, v1)`.** 77.88 against `papr-embed-code-1-0.6b`
 (596M) at 77.43 is 0.45, and the nearest model above the subject,
@@ -136,12 +147,13 @@ and any statement about why the model is built the way it is. MTEB measured neit
 
 ## Decisions for the reviewer
 
-1. **The two peer rows are the claim, not decoration.** They are same-size models, and the
-   post is now more than "a new model exists": it wins code by 6.79 and loses text by 5.00 to
-   one of them. They have no image or audio results, so the comparison is four columns of six.
-2. **The predecessor sentence stays, and the jina sentence joins it.** Both are the sentences
-   most likely to read as picking on the model, but dropping them leaves a reader to find
-   60.52 against 61.14 and 65.52 themselves.
+1. **The named rows are the claim, not decoration.** The two same-size peers make the post
+   more than "a new model exists" — it wins code by 6.79 and loses text by 5.00 to one of
+   them — and the predecessor row is the comparison a reader already has in their head. All
+   three are text-only, so the comparison is four columns of six.
+2. **The predecessor is a row now, not just a sentence.** It was the sentence most likely to
+   read as picking on the model; as a row it is the model's own history, and the reader sees
+   61.14 and 69.67 against 60.52 and 67.53 without being told what to think.
 3. **Whether the narrowness of the code lead belongs in the thread copy.** It is in the notes
    and not in the three posts; a reader who checks will see 77.43 behind 77.88, and saying
    "best" without the margin is true either way.

@@ -153,8 +153,12 @@ COLUMNS: list[tuple[str, list[str]]] = [
 
 # Named competitors. Both sit in the subject's own size class rather than above it, which
 # is the comparison a reader choosing between 250M models is actually making; where one has
-# no result the cell says so.
-NAMED = ["jinaai/jina-embeddings-v5-text-nano", "BidirLM/BidirLM-270M-Embedding"]
+# no result the cell says so. The predecessor is the same comparison one generation back.
+NAMED = [
+    "jinaai/jina-embeddings-v5-text-nano",
+    "BidirLM/BidirLM-270M-Embedding",
+    PREDECESSOR,
+]
 
 # Peer ceiling: total parameters from the registry, below 300M. The subject is 271M on its
 # text-only tower and 744M with every tower loaded, so the row is a like-for-like size
