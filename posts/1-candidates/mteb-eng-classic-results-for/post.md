@@ -1,0 +1,19 @@
+---
+id: mteb-eng-classic-results-for
+type: results_addition
+trigger: results#832
+trigger_date: 2026-11-03
+expires: 2026-12-03
+sources:
+  - https://github.com/embeddings-benchmark/results/pull/832
+---
+
+## Why this might be a post
+
+Results merged for a model registered earlier — the registration is not in this window, so this is the first moment the model can be written about. Check what the scores actually say before drafting.
+
+## Before it can move to 2-drafting
+
+- [ ] confirm the pairing above is real (the scanner guesses it from title overlap)
+- [ ] check the results are merged and complete, not partial
+- [ ] decide the angle, or reject with a reason
